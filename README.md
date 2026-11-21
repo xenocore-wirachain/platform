@@ -1,8 +1,8 @@
 # WiraChain Platform
 
-**WiraChain** is a healthcare platform that improves clinical data interoperability by combining **HL7 FHIR R4** with a permissioned **Hyperledger Besu** blockchain. Clinical records stay in conventional/FHIR storage, while patient consent decisions (grant/revoke) are recorded on-chain as an immutable, verifiable audit trail.
+WiraChain is a healthcare interoperability platform that combines **HL7 FHIR R4** with a permissioned **Hyperledger Besu** blockchain. Clinical data remain in conventional/FHIR storage, while patient consent decisions are recorded on-chain as an immutable audit trail.
 
-This repository is the **platform superproject**: it does not reimplement the application, it wires every independent repository together as Git submodules so the whole system can be cloned, versioned and started consistently.
+This repository is the **platform superproject**. It assembles the application repositories as Git submodules so the full stack can be cloned, versioned, and started consistently.
 
 ## Technologies
 
@@ -15,24 +15,32 @@ This repository is the **platform superproject**: it does not reimplement the ap
 
 ## Features
 
-- Patient-controlled permission grant/revoke with on-chain event emission (no clinical data on-chain).
+- Patient-controlled permission grant/revoke with on-chain event emission; no clinical data are stored on-chain.
 
-  ![Patient authorization — clinic list with access locks](docs/figure_4.png)
+  <p align="center">
+    <img src="docs/figure_4.png" alt="Patient authorization screen" width="900" />
+  </p>
 
 - FHIR R4 patient record create/update/delete against an external HAPI FHIR server.
 
-  ![Patient data imported as a FHIR JSON resource](docs/figure_7.png)
+  <p align="center">
+    <img src="docs/figure_7.png" alt="FHIR patient resource import" width="420" />
+  </p>
 
-- Authentication with JWT and role-based access control for patient, doctor, clinic administrator and system administrator dashboards
-- CRUD and paginated search for clinics, doctors, patients, specialties, tests and consultations.
+- Authentication with JWT and role-based access control for patient, doctor, clinic administrator, and system administrator dashboards.
+- CRUD and paginated search for clinics, doctors, patients, specialties, tests, and consultations.
 
-  ![Medical record visualization](docs/figure_5.png)
+  <p align="center">
+    <img src="docs/figure_5.png" alt="Medical record visualization" width="900" />
+  </p>
 
-  ![Creation of a clinical consultation](docs/figure_6.png)
+  <p align="center">
+    <img src="docs/figure_6.png" alt="Clinical consultation creation" width="900" />
+  </p>
 
-- Chunked on-chain event queries filtered by pseudonymized patient GUID and clinic ID
-- Reproducible synthetic datasets and performance measurements (latency/TPS) from the validation study
-- One-command local stack through Docker Compose
+- Chunked on-chain event queries filtered by pseudonymized patient GUID and clinic ID.
+- Reproducible synthetic datasets and performance measurements (latency/TPS) from the validation study.
+- One-command local stack through Docker Compose.
 
 ## Getting started
 
@@ -94,11 +102,15 @@ If you use this platform in research, please cite the following works.
 
 **Journal article (APA 7):**
 
-Grau, L., Urrunaga, J., & Santisteban, J. (2026). WiraChain: A blockchain and FHIR-based platform for improving clinical data interoperability in healthcare. *Frontiers in Public Health, 14*, Article 1746772. https://doi.org/10.3389/fpubh.2026.1746772
+```text
+Grau, L., Urrunaga, J., & Santisteban, J. (2026). WiraChain: A blockchain and FHIR-based platform for improving clinical data interoperability in healthcare. Frontiers in Public Health, 14, Article 1746772. https://doi.org/10.3389/fpubh.2026.1746772
+```
 
 **Conference paper (APA 7):**
 
-Grau, L., Urrunaga, J., & Santisteban, J. (2026). Wirachain: Blockchain and Fast Healthcare Interoperability Resources for clinical data interoperability. In *2026 International Conference on Artificial Intelligence, Computer, Data Sciences and Applications (ACDSA)* (pp. 1–6). IEEE. https://doi.org/10.1109/ACDSA67686.2026.11468238
+```text
+Grau, L., Urrunaga, J., & Santisteban, J. (2026). Wirachain: Blockchain and Fast Healthcare Interoperability Resources for clinical data interoperability. In 2026 International Conference on Artificial Intelligence, Computer, Data Sciences and Applications (ACDSA) (pp. 1–6). IEEE. https://doi.org/10.1109/ACDSA67686.2026.11468238
+```
 
 - [Frontiers in Public Health article](https://www.frontiersin.org/journals/public-health/articles/10.3389/fpubh.2026.1746772/full)
 - [IEEE ACDSA 2026 paper](https://ieeexplore.ieee.org/document/11468238)
