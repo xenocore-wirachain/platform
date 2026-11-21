@@ -4,32 +4,6 @@
 
 This repository is the **platform superproject**: it does not reimplement the application, it wires every independent repository together as Git submodules so the whole system can be cloned, versioned and started consistently.
 
-## Architecture
-
-```
-Browser ──► React frontend ──► .NET 8 REST API ──┬──► MySQL (identity & domains)
-                                                ├──► HAPI FHIR R4 (clinical records)
-                                                └──► Besu + Solidity contract (consent audit)
-                                                        ▲
-                                         Smart-contract ABI/event API
-```
-
-Four roles are supported: **patient**, **doctor**, **clinic administrator** and **system administrator**. Patients control who can access their data; the blockchain records the authorization outcome without storing protected health information.
-
-## Repository structure
-
-The platform uses Git submodules. Every folder below is an independent repository pinned to a specific commit:
-
-| Folder | Repository | Responsibility |
-| --- | --- | --- |
-| `wirachain-backend/` | [xenocore-wirachain/wirachain-backend](https://github.com/xenocore-wirachain/wirachain-backend) | ASP.NET Core REST API, domain logic, FHIR and Ethereum integrations |
-| `wirachain-frontend/` | [xenocore-wirachain/wirachain-frontend](https://github.com/xenocore-wirachain/wirachain-frontend) | React SPA with role-based dashboards |
-| `wirachain-smart-contract-deployment/` | [xenocore-wirachain/wirachain-smart-contract-deployment](https://github.com/xenocore-wirachain/wirachain-smart-contract-deployment) | Solidity contracts, CLI compile/deploy tooling, ABI dispatcher and event-query API |
-| `wirachain-datasets/` | [xenocore-wirachain/wirachain-datasets](https://github.com/xenocore-wirachain/wirachain-datasets) | Synthetic entities, event logs, latency and TPS datasets used for validation |
-| `wirachain-docker/` | [xenocore-wirachain/wirachain-docker](https://github.com/xenocore-wirachain/wirachain-docker) | Docker Compose stack for the entire platform |
-
-The connections are declarative: `wirachain-docker/docker-compose.yml` builds the backend, frontend and contract API from their sibling submodule folders and wires them to MySQL, HAPI FHIR and Besu by container name.
-
 ## Technologies
 
 - **Frontend:** React 19, TypeScript, Vite 6, Redux Toolkit / RTK Query, React Router 7, PrimeReact, Tailwind CSS, Vitest
@@ -43,13 +17,15 @@ The connections are declarative: `wirachain-docker/docker-compose.yml` builds th
 
 - Patient-controlled permission grant/revoke with on-chain event emission (no clinical data on-chain)
 - FHIR R4 patient record create/update/delete against an external HAPI FHIR server
-- Authentication with JWT and role-based access control for four dashboards
+- Authentication with JWT and role-based access control for patient, doctor, clinic administrator and system administrator dashboards
 - CRUD and paginated search for clinics, doctors, patients, specialties, tests and consultations
 - Chunked on-chain event queries filtered by pseudonymized patient GUID and clinic ID
 - Reproducible synthetic datasets and performance measurements (latency/TPS) from the validation study
 - One-command local stack through Docker Compose
 
 ## Getting started
+
+Prerequisites: Git, Docker with Compose, and (for individual component development) the .NET 8 SDK and Node.js.
 
 ### 1. Clone with submodules
 
@@ -58,24 +34,32 @@ git clone --recurse-submodules https://github.com/xenocore-wirachain/platform.gi
 cd platform
 ```
 
-If you already cloned the platform without submodules:
+If you already cloned the platform without submodules, run `make init`.
+
+### 2. Use the Makefile
+
+Run `make` (or `make help`) to list every target.
+
+| Command | Description |
+| --- | --- |
+| `make init` | Fetch and check out all submodules |
+| `make update` | Advance submodules to the latest commit on their default branch |
+| `make status` | Show pinned submodule commits and working tree status |
+| `make env` | Create `wirachain-docker/.env` from the template (does not overwrite) |
+| `make up` | Build and start the full stack in the background |
+| `make logs` | Follow logs of all services |
+| `make ps` | Show service status |
+| `make restart` | Restart all containers |
+| `make down` | Stop and remove containers |
+| `make clean` | Stop the stack and delete volumes (removes database data) |
+| `make dev-backend` / `make dev-frontend` / `make dev-contracts` | Run a single component locally |
+| `make test-backend` / `make test-frontend` | Run component tests |
+
+### 3. Configure and start the full stack
 
 ```bash
-git submodule update --init --recursive
-```
-
-To advance every submodule to the latest commit on its default branch:
-
-```bash
-git submodule update --remote --recursive
-```
-
-### 2. Configure and start the full stack
-
-```bash
-cd wirachain-docker
-cp .env.template .env      # fill in credentials and ports
-docker compose up -d --build
+make env   # then edit wirachain-docker/.env with your credentials and ports
+make up
 ```
 
 | URL | Service |
@@ -87,20 +71,9 @@ docker compose up -d --build
 
 Ports are driven by `.env` (`BACKEND_PORT`, `FRONTEND_PORT`, `FHIR_PORT`, `BESU_RPC_PORT`, `ABI_DISPATCHER_PORT`). See [`wirachain-docker/README.md`](wirachain-docker/README.md) for service details and deployment notes.
 
-### 3. Work on a single component
+### 4. Work on a single component
 
-Each submodule has its own README and can be developed independently:
-
-```bash
-# Backend
-cd wirachain-backend && dotnet restore && dotnet run
-
-# Frontend
-cd wirachain-frontend && npm install && npm run dev
-
-# Contract tooling
-cd wirachain-smart-contract-deployment && npm install && npm run build
-```
+Use `make dev-backend`, `make dev-frontend` or `make dev-contracts`. Each submodule also has its own README with detailed instructions.
 
 Before emitting on-chain events, compile and deploy the permission contract to the Besu node using the CLI helpers in `wirachain-smart-contract-deployment/scripts/` and update the stored address artifact. `EthereumSettings__SmartContractManagerUrl` must point to a service exposing `GET /contract/1` with the ABI and address.
 
