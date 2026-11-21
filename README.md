@@ -15,10 +15,21 @@ This repository is the **platform superproject**: it does not reimplement the ap
 
 ## Features
 
-- Patient-controlled permission grant/revoke with on-chain event emission (no clinical data on-chain)
-- FHIR R4 patient record create/update/delete against an external HAPI FHIR server
+- Patient-controlled permission grant/revoke with on-chain event emission (no clinical data on-chain).
+
+  ![Patient authorization — clinic list with access locks](docs/figure_4.png)
+
+- FHIR R4 patient record create/update/delete against an external HAPI FHIR server.
+
+  ![Patient data imported as a FHIR JSON resource](docs/figure_7.png)
+
 - Authentication with JWT and role-based access control for patient, doctor, clinic administrator and system administrator dashboards
-- CRUD and paginated search for clinics, doctors, patients, specialties, tests and consultations
+- CRUD and paginated search for clinics, doctors, patients, specialties, tests and consultations.
+
+  ![Medical record visualization](docs/figure_5.png)
+
+  ![Creation of a clinical consultation](docs/figure_6.png)
+
 - Chunked on-chain event queries filtered by pseudonymized patient GUID and clinic ID
 - Reproducible synthetic datasets and performance measurements (latency/TPS) from the validation study
 - One-command local stack through Docker Compose
