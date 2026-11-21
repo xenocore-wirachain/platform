@@ -16,31 +16,39 @@ This repository is the **platform superproject**. It assembles the application r
 ## Features
 
 - Patient-controlled permission grant/revoke with on-chain event emission; no clinical data are stored on-chain.
-
-  <p align="center">
-    <img src="docs/figure_4.png" alt="Patient authorization screen" width="900" />
-  </p>
-
 - FHIR R4 patient record create/update/delete against an external HAPI FHIR server.
-
-  <p align="center">
-    <img src="docs/figure_7.png" alt="FHIR patient resource import" width="420" />
-  </p>
-
 - Authentication with JWT and role-based access control for patient, doctor, clinic administrator, and system administrator dashboards.
 - CRUD and paginated search for clinics, doctors, patients, specialties, tests, and consultations.
-
-  <p align="center">
-    <img src="docs/figure_5.png" alt="Medical record visualization" width="900" />
-  </p>
-
-  <p align="center">
-    <img src="docs/figure_6.png" alt="Clinical consultation creation" width="900" />
-  </p>
-
 - Chunked on-chain event queries filtered by pseudonymized patient GUID and clinic ID.
 - Reproducible synthetic datasets and performance measurements (latency/TPS) from the validation study.
 - One-command local stack through Docker Compose.
+
+## Documentation snapshots
+
+These screenshots show representative UI flows and data formats documented in the project:
+
+| Preview | Description |
+| --- | --- |
+| `docs/figure_4.png` | Patient authorization and clinic access management |
+| `docs/figure_5.png` | Medical record visualization |
+| `docs/figure_6.png` | Clinical consultation creation |
+| `docs/figure_7.png` | Imported patient resource in FHIR JSON format |
+
+<p align="center">
+  <img src="docs/figure_4.png" alt="Patient authorization screen" width="860" />
+</p>
+
+<p align="center">
+  <img src="docs/figure_5.png" alt="Medical record visualization" width="860" />
+</p>
+
+<p align="center">
+  <img src="docs/figure_6.png" alt="Clinical consultation creation" width="860" />
+</p>
+
+<p align="center">
+  <img src="docs/figure_7.png" alt="FHIR patient resource import" width="420" />
+</p>
 
 ## Getting started
 
