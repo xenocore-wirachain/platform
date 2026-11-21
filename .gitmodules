@@ -1,0 +1,15 @@
+[submodule "wirachain-backend"]
+	path = wirachain-backend
+	url = https://github.com/xenocore-wirachain/wirachain-backend.git
+[submodule "wirachain-frontend"]
+	path = wirachain-frontend
+	url = https://github.com/xenocore-wirachain/wirachain-frontend.git
+[submodule "wirachain-smart-contract-deployment"]
+	path = wirachain-smart-contract-deployment
+	url = https://github.com/xenocore-wirachain/wirachain-smart-contract-deployment.git
+[submodule "wirachain-datasets"]
+	path = wirachain-datasets
+	url = https://github.com/xenocore-wirachain/wirachain-datasets.git
+[submodule "wirachain-docker"]
+	path = wirachain-docker
+	url = https://github.com/xenocore-wirachain/wirachain-docker.git
